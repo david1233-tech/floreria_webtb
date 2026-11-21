@@ -1,5 +1,6 @@
+import { PageTransition } from "@/components/ui/PageTransition";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { Benefits, HowItWorks, Occasions, Types, VisitUs } from "@/components/home/Sections";
+import { Benefits, HowItWorks, Marquee, Occasions, Types, VisitUs } from "@/components/home/Sections";
 import { Faq } from "@/components/home/Faq";
 import { ProductGrid } from "@/components/product/ProductCard";
 import { SectionTitle } from "@/components/ui/SectionTitle";
@@ -7,7 +8,7 @@ import { productsIn } from "@/lib/catalog";
 
 export default function Home() {
   return (
-    <>
+    <PageTransition>
       <HeroCarousel />
       <Benefits />
 
@@ -22,11 +23,14 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="mt-20 sm:mt-28">
+        <Marquee />
+      </div>
       <Occasions />
       <Types />
       <HowItWorks />
 
-      <section className="bg-white/60 py-20 sm:py-28">
+      <section className="bg-surface/60 py-20 sm:py-28">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <SectionTitle eyebrow="Ayuda" title="Preguntas frecuentes" center />
           <Faq limit={5} />
@@ -34,6 +38,6 @@ export default function Home() {
       </section>
 
       <VisitUs />
-    </>
+    </PageTransition>
   );
 }

@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/ui/PageTransition";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { VisitUs } from "@/components/home/Sections";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
+    <PageTransition>
       <PageHero
         eyebrow="Contacto"
         title="Hablemos de flores"
@@ -18,6 +19,6 @@ export default function ContactPage() {
         palette="lila"
       />
       <VisitUs />
-    </>
+    </PageTransition>
   );
 }

@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/ui/PageTransition";
 import type { Metadata } from "next";
 import { Flower2, HandHeart, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
@@ -18,7 +19,7 @@ const VALUES = [
 
 export default function AboutPage() {
   return (
-    <>
+    <PageTransition>
       <PageHero
         eyebrow="Nosotros"
         title={SITE.name}
@@ -28,7 +29,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <div className="grid gap-6 md:grid-cols-3">
           {VALUES.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="scroll-reveal rounded-3xl bg-white/70 p-8 ring-1 ring-ink/5">
+            <div key={title} className="scroll-reveal rounded-3xl bg-surface/70 p-8 ring-1 ring-ink/5">
               <span className="grid h-12 w-12 place-items-center rounded-full bg-blush/60 text-rose-deep">
                 <Icon className="h-6 w-6" strokeWidth={1.6} />
               </span>
@@ -39,6 +40,6 @@ export default function AboutPage() {
         </div>
       </section>
       <VisitUs />
-    </>
+    </PageTransition>
   );
 }

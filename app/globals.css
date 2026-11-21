@@ -1,25 +1,187 @@
 @import "tailwindcss";
 
+/* `dark:` aplica cuando <html data-theme="dark"> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
-  --color-cream: #fbf6f0;
-  --color-blush: #f3d5d3;
-  --color-rose: #d98c93;
-  --color-rose-deep: #b4546a;
-  --color-wine: #2a0f18;
-  --color-gold: #c9a15b;
-  --color-ink: #2b1a1e;
+  --color-cream: var(--cream); /* fondo de página */
+  --color-surface: var(--surface); /* tarjetas */
+  --color-ink: var(--ink); /* texto */
+  --color-blush: var(--blush);
+  --color-rose: var(--rose);
+  --color-rose-deep: var(--rose-deep);
+  --color-wine: var(--wine);
+  --color-gold: var(--gold);
+  --color-petal: #fbf6f0; /* texto claro fijo sobre fondos de color */
   --font-display: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
 }
 
 :root {
   color-scheme: light;
+  --cream: #fbf6f0;
+  --surface: #ffffff;
+  --ink: #2b1a1e;
+  --blush: #f3d5d3;
+  --rose: #d98c93;
+  --rose-deep: #b4546a;
+  --wine: #2a0f18;
+  --gold: #c9a15b;
+  --tint-red: #f6dedc;
+  --tint-yellow: #fbf0d5;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --cream: #170d11;
+  --surface: #24161c;
+  --ink: #f3e9e4;
+  --blush: #42222d;
+  --rose: #d98c93;
+  --rose-deep: #c9657b;
+  --wine: #0e0609;
+  --gold: #d4af6a;
+  --tint-red: #2b1218;
+  --tint-yellow: #261c10;
 }
 
 body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ==========================================================
+   CAMBIO DE TEMA: círculo que se expande desde el botón
+   ========================================================== */
+html.theme-vt::view-transition-old(root),
+html.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.theme-vt::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* ==========================================================
+   TRANSICIONES ENTRE PÁGINAS (View Transitions de React)
+   ========================================================== */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.page-out) {
+  animation: 180ms ease-in both vt-fade reverse, 180ms ease-in both vt-rise reverse;
+}
+::view-transition-new(.page-in) {
+  animation: 320ms ease-out 120ms both vt-fade, 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both vt-rise;
+}
+@keyframes vt-fade {
+  from { opacity: 0; filter: blur(4px); }
+}
+@keyframes vt-rise {
+  from { transform: translateY(18px); }
+}
+::view-transition-group(.morph) {
+  animation-duration: 480ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: vt-blur;
+}
+@keyframes vt-blur {
+  30% { filter: blur(3px); }
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* ==========================================================
+   MICRO-ANIMACIONES
+   ========================================================== */
+
+/* Sombra del menú al hacer scroll */
+@supports (animation-timeline: scroll()) {
+  .header-scroll {
+    animation: header-shadow linear both;
+    animation-timeline: scroll();
+    animation-range: 0 120px;
+  }
+}
+@keyframes header-shadow {
+  to { box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.18); }
+}
+
+/* Contador del carrito que rebota al cambiar */
+.bump {
+  animation: bump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes bump {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.25); }
+}
+
+/* Cinta de palabras en movimiento */
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Pétalos que caen en la portada */
+.falling-petal {
+  position: absolute;
+  top: -40px;
+  animation: petal-fall linear infinite;
+}
+@keyframes petal-fall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.8; }
+  100% { transform: translate(var(--drift, 60px), 105vh) rotate(var(--spin, 360deg)); opacity: 0; }
+}
+
+/* Pulso del botón flotante de WhatsApp */
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #25d366;
+  z-index: -1;
+  animation: wa-pulse 2.4s ease-out infinite;
+}
+@keyframes wa-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* Brillo que cruza los botones principales */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.35) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+}
+.btn-shine:hover::after {
+  transform: translateX(120%);
 }
 
 /* ==========================================================
@@ -369,8 +531,21 @@ summary::-webkit-details-marker {
   .intro-root *::before,
   .reveal,
   .scroll-reveal,
-  .flower-idle .flower-spin {
+  .flower-idle .flower-spin,
+  .marquee-track,
+  .falling-petal,
+  .wa-float::before,
+  .bump {
     animation: none !important;
+  }
+  .falling-petal {
+    display: none;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
   .intro-veil {
     transition: opacity 0.6s;

@@ -12,10 +12,7 @@ import { Flower } from "./Flower";
 import { SITE } from "@/lib/site";
 
 /** La intro se muestra una vez por sesión del navegador. */
-const SEEN_KEY = "cb-intro";
-
-/** Se ejecuta antes del primer pintado para ocultar la intro si ya se vio. */
-export const INTRO_SEEN_SCRIPT = `try{if(sessionStorage.getItem("${SEEN_KEY}"))document.documentElement.dataset.introSeen=""}catch(e){}`;
+import { INTRO_KEY as SEEN_KEY } from "@/lib/head-scripts";
 
 const noopSubscribe = () => () => {};
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CheckoutView } from "./CheckoutView";
+import { PageTransition } from "@/components/ui/PageTransition";
 
 export const metadata: Metadata = {
   title: "Tu carrito",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function CartPage() {
-  return <CheckoutView />;
+  return (
+    <PageTransition>
+      <CheckoutView />
+    </PageTransition>
+  );
 }

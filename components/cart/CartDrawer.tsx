@@ -26,7 +26,7 @@ export function CartDrawer() {
     <div className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`} inert={!open}>
       <div
         onClick={cartDrawer.close}
-        className={`absolute inset-0 bg-ink/40 backdrop-blur-sm transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-wine/60 backdrop-blur-sm transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
       />
       <aside
         role="dialog"
@@ -55,7 +55,7 @@ export function CartDrawer() {
             <Link
               href="/colecciones"
               onClick={cartDrawer.close}
-              className="mt-2 rounded-full bg-rose-deep px-6 py-3 text-sm font-medium text-cream hover:bg-ink"
+              className="mt-2 rounded-full bg-rose-deep px-6 py-3 text-sm font-medium text-petal hover:bg-wine"
             >
               Ver arreglos
             </Link>
@@ -122,7 +122,7 @@ export function CartDrawer() {
               <Link
                 href="/carrito"
                 onClick={cartDrawer.close}
-                className="flex h-12 items-center justify-center rounded-full bg-rose-deep font-medium text-cream hover:bg-ink"
+                className="flex h-12 items-center justify-center rounded-full bg-rose-deep font-medium text-petal hover:bg-wine"
               >
                 Completar pedido
               </Link>

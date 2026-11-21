@@ -19,6 +19,16 @@ export const SITE = {
   facebook: "",
 } as const;
 
+/**
+ * URL pública de la web. En Vercel se detecta sola; si compras un dominio,
+ * ponlo en la variable de entorno NEXT_PUBLIC_SITE_URL (ej. https://claudettebotanica.com).
+ */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
 export const NAV_LINKS = [
   { label: "Inicio", href: "/" },
   { label: "Más vendidos", href: "/colecciones/mas-vendidos" },

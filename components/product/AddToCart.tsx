@@ -16,7 +16,7 @@ export function QuickAdd({ slug }: { slug: string }) {
         cart.add(slug);
         cartDrawer.open();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-rose-deep hover:bg-rose-deep hover:text-cream"
+      className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-rose-deep hover:bg-rose-deep hover:text-petal"
     >
       <ShoppingBag className="h-4 w-4" /> Agregar
     </button>
@@ -57,7 +57,7 @@ export function AddToCart({ product }: { product: Product }) {
             cart.add(product.slug, qty);
             cartDrawer.open();
           }}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-rose-deep px-6 font-medium text-cream shadow-lg shadow-rose-deep/20 transition-colors hover:bg-ink"
+          className="btn-shine flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-rose-deep px-6 font-medium text-petal shadow-lg shadow-rose-deep/20 transition-colors hover:bg-wine"
         >
           <ShoppingBag className="h-5 w-5" /> Agregar al carrito
         </button>
@@ -66,7 +66,7 @@ export function AddToCart({ product }: { product: Product }) {
         href={productWaLink(product, qty)}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex h-12 items-center justify-center gap-2 rounded-full border border-[#25D366] font-medium text-[#128C4B] transition-colors hover:bg-[#25D366] hover:text-white"
+        className="flex h-12 items-center justify-center gap-2 rounded-full border border-[#25D366] font-medium text-[#128C4B] dark:text-[#25D366] transition-colors hover:bg-[#25D366] hover:text-white"
       >
         <WhatsAppIcon /> Pedir ahora por WhatsApp
       </a>

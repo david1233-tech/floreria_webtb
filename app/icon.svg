@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 -100 200 200">
+  <defs>
+    <linearGradient id="o" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-92">
+      <stop offset="0" stop-color="#B4546A"/>
+      <stop offset="1" stop-color="#EFB8BC"/>
+    </linearGradient>
+    <linearGradient id="i" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-60">
+      <stop offset="0" stop-color="#8E3550"/>
+      <stop offset="1" stop-color="#D98C93"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#o)">
+    <path id="p" d="M0 0C-24 -20 -30 -66 0 -92C30 -66 24 -20 0 0Z"/>
+    <use href="#p" transform="rotate(60)"/>
+    <use href="#p" transform="rotate(120)"/>
+    <use href="#p" transform="rotate(180)"/>
+    <use href="#p" transform="rotate(240)"/>
+    <use href="#p" transform="rotate(300)"/>
+  </g>
+  <g fill="url(#i)">
+    <path id="q" d="M0 0C-16 -14 -20 -42 0 -60C20 -42 16 -14 0 0Z" transform="rotate(30)"/>
+    <use href="#q" transform="rotate(60)"/>
+    <use href="#q" transform="rotate(120)"/>
+    <use href="#q" transform="rotate(180)"/>
+    <use href="#q" transform="rotate(240)"/>
+    <use href="#q" transform="rotate(300)"/>
+  </g>
+  <circle r="17" fill="#C9A15B"/>
+  <circle r="9" fill="#F7E3B0"/>
+</svg>

@@ -36,7 +36,7 @@ const SLIDES: Slide[] = [
     cta: { label: "Elegir ocasión", href: "/#ocasiones" },
     palette: "rojo",
     accents: ["rosa", "blanco"],
-    bg: "from-[#F6DEDC] via-cream to-[#F6DEDC]",
+    bg: "from-(--tint-red) via-cream to-(--tint-red)",
   },
   {
     eyebrow: `Delivery en ${SITE.deliveryArea}`,
@@ -45,11 +45,22 @@ const SLIDES: Slide[] = [
     cta: { label: "Escribir por WhatsApp", href: WA_GREETING, external: true },
     palette: "amarillo",
     accents: ["durazno", "rosa"],
-    bg: "from-[#FBF0D5] via-cream to-[#FBF0D5]",
+    bg: "from-(--tint-yellow) via-cream to-(--tint-yellow)",
   },
 ];
 
 const step = (r: number) => ({ "--r": r }) as CSSProperties;
+
+/** Pétalos que caen (valores fijos para que servidor y cliente coincidan). */
+const PETALS = Array.from({ length: 14 }, (_, i) => ({
+  left: (i * 41 + 7) % 100,
+  size: 10 + ((i * 7) % 4) * 4,
+  duration: 9 + ((i * 5) % 6) * 1.5,
+  delay: -((i * 13) % 14),
+  drift: (i % 2 ? 1 : -1) * (30 + ((i * 11) % 60)),
+  spin: (i % 2 ? 1 : -1) * (200 + ((i * 37) % 300)),
+  color: ["#EFB8BC", "#D98C93", "#F3D5D3", "#E9C987", "#B4546A"][i % 5],
+}));
 
 export function HeroCarousel() {
   const [index, setIndex] = useState(0);
@@ -80,6 +91,28 @@ export function HeroCarousel() {
         touchX.current = null;
       }}
     >
+      <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden" aria-hidden="true">
+        {PETALS.map((p, i) => (
+          <svg
+            key={i}
+            viewBox="-10 -20 20 20"
+            className="falling-petal"
+            style={
+              {
+                left: `${p.left}%`,
+                width: p.size,
+                animationDuration: `${p.duration}s`,
+                animationDelay: `${p.delay}s`,
+                "--drift": `${p.drift}px`,
+                "--spin": `${p.spin}deg`,
+              } as CSSProperties
+            }
+          >
+            <path d="M0 0C-4.5 -3 -5 -8.5 0 -10C5 -8.5 4.5 -3 0 0Z" fill={p.color} />
+          </svg>
+        ))}
+      </div>
+
       <div className="grid">
         {SLIDES.map((s, i) => {
           const active = i === index;
@@ -120,7 +153,7 @@ export function HeroCarousel() {
                     ) : (
                       <Link
                         href={s.cta.href}
-                        className="group inline-flex h-12 items-center gap-2 rounded-full bg-rose-deep px-7 font-medium text-cream shadow-lg shadow-rose-deep/25 transition-colors hover:bg-ink"
+                        className="btn-shine group inline-flex h-12 items-center gap-2 rounded-full bg-rose-deep px-7 font-medium text-petal shadow-lg shadow-rose-deep/25 transition-colors hover:bg-wine"
                       >
                         {s.cta.label}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -139,7 +172,7 @@ export function HeroCarousel() {
                   className={`reveal relative mx-auto aspect-square w-full max-w-[22rem] md:max-w-md ${active ? "hero-art-in" : ""}`}
                   style={step(2)}
                 >
-                  <div className="absolute inset-[8%] rounded-full bg-white/50 ring-1 ring-gold/30" />
+                  <div className="absolute inset-[8%] rounded-full bg-surface/50 ring-1 ring-gold/30" />
                   <Flower
                     id={`hero-${i}`}
                     palette={s.palette}
@@ -171,7 +204,7 @@ export function HeroCarousel() {
               onClick={() => setIndex(i)}
               aria-label={`Ir a la diapositiva ${i + 1}`}
               aria-current={i === index}
-              className={`h-2 rounded-full transition-all duration-500 ${i === index ? "w-10 bg-rose-deep" : "w-2 bg-ink/20 hover:bg-ink/40"}`}
+              className={`h-2 rounded-full transition-all duration-500 ${i === index ? "w-10 bg-rose-deep" : "w-2 bg-ink/20 hover:bg-wine/60"}`}
             />
           ))}
         </div>

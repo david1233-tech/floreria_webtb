@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatPrice, type Product } from "@/lib/catalog";
 import { ProductMedia } from "./ProductArt";
 import { QuickAdd } from "./AddToCart";
+import { ProductMorph } from "@/components/ui/PageTransition";
 
 export function ProductCard({ product, idSuffix = "" }: { product: Product; idSuffix?: string }) {
   return (
@@ -10,9 +11,11 @@ export function ProductCard({ product, idSuffix = "" }: { product: Product; idSu
         href={`/producto/${product.slug}`}
         className="relative block aspect-[4/5] overflow-hidden rounded-3xl"
       >
-        <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
-          <ProductMedia product={product} idSuffix={idSuffix} />
-        </div>
+        <ProductMorph slug={product.slug}>
+          <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+            <ProductMedia product={product} idSuffix={idSuffix} />
+          </div>
+        </ProductMorph>
         {product.badge && (
           <span className="absolute left-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-rose-deep backdrop-blur">
             {product.badge}

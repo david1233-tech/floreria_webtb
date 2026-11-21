@@ -9,6 +9,7 @@ import { OCASIONES, TIPOS, type Collection } from "@/lib/catalog";
 import { cartDrawer, useCart } from "@/lib/cart";
 import { WA_GREETING } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
+import { ThemeToggle } from "./ThemeToggle";
 
 const MENUS: { label: string; items: Collection[] }[] = [
   { label: "Arreglos", items: TIPOS },
@@ -41,14 +42,17 @@ export function Header() {
 
   return (
     <>
-      <div className="bg-wine px-4 py-2 text-center text-[11px] tracking-wide text-cream/85 sm:text-xs">
+      <div className="bg-wine px-4 py-2 text-center text-[11px] tracking-wide text-petal/85 sm:text-xs">
         Delivery en {SITE.deliveryArea} · Atendemos {SITE.hours.toLowerCase()} ·{" "}
         <a href={WA_GREETING} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
           Pedidos al {SITE.phoneDisplay}
         </a>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-ink/5 bg-cream/85 backdrop-blur-md">
+      <header
+        className="header-scroll sticky top-0 z-40 border-b border-ink/5 bg-cream/85 backdrop-blur-md"
+        style={{ viewTransitionName: "site-header" }}
+      >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
           <button
             type="button"
@@ -105,12 +109,13 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-1">
+            <ThemeToggle />
             <a
               href={WA_GREETING}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Escribir por WhatsApp"
-              className="hidden h-10 w-10 place-items-center rounded-full text-[#128C4B] hover:bg-ink/5 sm:grid"
+              className="hidden h-10 w-10 place-items-center rounded-full text-[#128C4B] dark:text-[#25D366] hover:bg-ink/5 sm:grid"
             >
               <WhatsAppIcon />
             </a>
@@ -122,7 +127,9 @@ export function Header() {
             >
               <ShoppingBag className="h-5 w-5" />
               {count > 0 && (
-                <span className="absolute right-0.5 top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-rose-deep px-1 text-[10px] font-semibold text-cream">
+                <span
+                  key={count}
+                  className="bump absolute right-0.5 top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-rose-deep px-1 text-[10px] font-semibold text-petal">
                   {count}
                 </span>
               )}

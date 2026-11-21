@@ -18,7 +18,7 @@ const BENEFITS = [
 
 export function Benefits() {
   return (
-    <section className="border-y border-ink/5 bg-white/60">
+    <section className="border-y border-ink/5 bg-surface/60">
       <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:px-6 md:grid-cols-4">
         {BENEFITS.map(({ icon: Icon, title, text }) => (
           <li key={title} className="flex items-center gap-3">
@@ -36,6 +36,31 @@ export function Benefits() {
   );
 }
 
+/* ---------- Cinta de palabras en movimiento ---------- */
+
+const WORDS = ["Rosas", "Girasoles", "Tulipanes", "Amor", "Cumpleaños", "Aniversario", "Hecho a mano", "Tiabaya"];
+
+export function Marquee() {
+  const row = (
+    <div className="flex shrink-0 items-center" aria-hidden="true">
+      {WORDS.map((w) => (
+        <span key={w} className="flex items-center">
+          <span className="px-8 font-display text-4xl italic text-ink/80 sm:text-6xl">{w}</span>
+          <Flower id={`mq-${w}`} palette="rosa" className="h-8 w-8 sm:h-10 sm:w-10" />
+        </span>
+      ))}
+    </div>
+  );
+  return (
+    <section className="marquee overflow-hidden border-y border-ink/5 py-6 sm:py-8" aria-label="Lo que hacemos">
+      <div className="marquee-track flex w-max">
+        {row}
+        {row}
+      </div>
+    </section>
+  );
+}
+
 /* ---------- ¿Qué quieres celebrar? ---------- */
 
 export function Occasions() {
@@ -48,7 +73,7 @@ export function Occasions() {
             <Link
               key={o.slug}
               href={`/colecciones/${o.slug}`}
-              className="scroll-reveal group relative aspect-square overflow-hidden rounded-3xl bg-white/70 p-5 ring-1 ring-ink/5 transition-shadow hover:shadow-xl hover:shadow-rose-deep/10"
+              className="scroll-reveal group relative aspect-square overflow-hidden rounded-3xl bg-surface/70 p-5 ring-1 ring-ink/5 transition-shadow hover:shadow-xl hover:shadow-rose-deep/10"
             >
               <Flower
                 id={`occ-${o.slug}`}
@@ -60,7 +85,7 @@ export function Occasions() {
           ))}
           <Link
             href="/colecciones"
-            className="scroll-reveal group flex aspect-square flex-col justify-between rounded-3xl bg-rose-deep p-5 text-cream"
+            className="scroll-reveal group flex aspect-square flex-col justify-between rounded-3xl bg-rose-deep p-5 text-petal"
           >
             <span className="font-display text-2xl leading-tight sm:text-3xl">Ver todos los arreglos</span>
             <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-2" />
@@ -75,7 +100,7 @@ export function Occasions() {
 
 export function Types() {
   return (
-    <section className="bg-white/60 py-20 sm:py-28">
+    <section className="bg-surface/60 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionTitle eyebrow="Explora" title="Nuestros arreglos" link={{ href: "/colecciones", label: "Ver catálogo" }} />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +146,7 @@ export function HowItWorks() {
             <li key={title} className="scroll-reveal relative text-center">
               <span className="relative mx-auto grid h-20 w-20 place-items-center rounded-full bg-blush/60 text-rose-deep">
                 <Icon className="h-7 w-7" strokeWidth={1.5} />
-                <span className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-gold font-display text-sm text-cream">
+                <span className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-gold font-display text-sm text-petal">
                   {i + 1}
                 </span>
               </span>
@@ -141,10 +166,10 @@ export function VisitUs() {
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-5">
-        <div className="scroll-reveal rounded-3xl bg-wine p-8 text-cream sm:p-10 lg:col-span-2">
+        <div className="scroll-reveal rounded-3xl bg-wine p-8 text-petal sm:p-10 lg:col-span-2">
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold">Visítanos</p>
           <h2 className="font-display text-4xl leading-tight sm:text-5xl">Te esperamos en Tiabaya</h2>
-          <ul className="mt-8 space-y-5 text-cream/80">
+          <ul className="mt-8 space-y-5 text-petal/80">
             <li className="flex gap-4">
               <MapPin className="mt-1 h-5 w-5 shrink-0 text-gold" />
               <span>{SITE.address}</span>
@@ -172,7 +197,7 @@ export function VisitUs() {
                 href={SITE.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 items-center gap-2 rounded-full bg-cream/10 px-6 font-medium hover:bg-cream/20"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-petal/10 px-6 font-medium hover:bg-petal/20"
               >
                 <FacebookIcon /> Facebook
               </a>

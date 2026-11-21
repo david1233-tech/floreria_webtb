@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/ui/PageTransition";
 import Link from "next/link";
 import { Flower } from "@/components/Flower";
 import { ProductGrid } from "./ProductCard";
@@ -19,7 +20,7 @@ export function CollectionView({
   activeSlug?: string;
 }) {
   return (
-    <>
+    <PageTransition>
       <section className="relative overflow-hidden bg-linear-to-br from-blush/50 via-cream to-cream">
         <Flower
           id={`col-${activeSlug ?? "all"}`}
@@ -46,12 +47,12 @@ export function CollectionView({
         {products.length > 0 ? (
           <ProductGrid products={products} />
         ) : (
-          <p className="rounded-3xl bg-white/60 p-10 text-center text-ink/60">
+          <p className="rounded-3xl bg-surface/60 p-10 text-center text-ink/60">
             Pronto tendremos arreglos en esta categoría.
           </p>
         )}
       </div>
-    </>
+    </PageTransition>
   );
 }
 
@@ -76,7 +77,7 @@ function FilterRow({
             <Link
               key={c.slug}
               href={active ? "/colecciones" : `/colecciones/${c.slug}`}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm transition-colors ${active ? "bg-rose-deep text-cream" : "bg-white/70 text-ink/75 ring-1 ring-ink/10 hover:ring-rose-deep"}`}
+              className={`shrink-0 rounded-full px-4 py-2 text-sm transition-colors ${active ? "bg-rose-deep text-petal" : "bg-surface/70 text-ink/75 ring-1 ring-ink/10 hover:ring-rose-deep"}`}
             >
               {c.name}
             </Link>

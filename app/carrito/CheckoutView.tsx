@@ -40,7 +40,7 @@ export function CheckoutView() {
         <p className="mt-3 text-ink/60">Explora el catálogo y elige el arreglo perfecto.</p>
         <Link
           href="/colecciones"
-          className="mt-8 rounded-full bg-rose-deep px-8 py-3.5 font-medium text-cream hover:bg-ink"
+          className="mt-8 rounded-full bg-rose-deep px-8 py-3.5 font-medium text-petal hover:bg-wine"
         >
           Ver arreglos
         </Link>
@@ -170,7 +170,7 @@ export function CheckoutView() {
           </button>
 
           {sent && (
-            <div className="rounded-3xl bg-white/70 p-6 text-center ring-1 ring-ink/5">
+            <div className="rounded-3xl bg-surface/70 p-6 text-center ring-1 ring-ink/5">
               <p className="font-display text-2xl">¡Gracias por tu pedido! 🌸</p>
               <p className="mt-2 text-sm text-ink/65">
                 Si WhatsApp no se abrió,{" "}
@@ -191,7 +191,7 @@ export function CheckoutView() {
         </form>
 
         <aside className="lg:col-span-2">
-          <div className="rounded-3xl bg-white/70 p-6 ring-1 ring-ink/5 lg:sticky lg:top-28">
+          <div className="rounded-3xl bg-surface/70 p-6 ring-1 ring-ink/5 lg:sticky lg:top-28">
             <h2 className="font-display text-2xl">Resumen</h2>
             <ul className="mt-4 divide-y divide-ink/10">
               {lines.map(({ product, qty }) => (
@@ -256,7 +256,7 @@ export function CheckoutView() {
 }
 
 const inputClass =
-  "w-full rounded-2xl border border-ink/15 bg-white/70 px-4 py-3 text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-rose-deep";
+  "w-full rounded-2xl border border-ink/15 bg-surface/70 px-4 py-3 text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-rose-deep";
 
 function Fieldset({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -296,11 +296,11 @@ function Choice({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-2xl p-4 text-left transition-colors ${active ? "bg-rose-deep text-cream" : "bg-white/70 ring-1 ring-ink/10 hover:ring-rose-deep"}`}
+      className={`rounded-2xl p-4 text-left transition-colors ${active ? "bg-rose-deep text-petal" : "bg-surface/70 ring-1 ring-ink/10 hover:ring-rose-deep"}`}
     >
       {icon}
       <span className="mt-2 block font-medium">{title}</span>
-      <span className={`block text-xs ${active ? "text-cream/75" : "text-ink/55"}`}>{text}</span>
+      <span className={`block text-xs ${active ? "text-petal/75" : "text-ink/55"}`}>{text}</span>
     </button>
   );
 }
