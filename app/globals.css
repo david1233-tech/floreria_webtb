@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #fbf6f0;
+  --color-blush: #f3d5d3;
+  --color-rose: #d98c93;
+  --color-rose-deep: #b4546a;
+  --color-wine: #2a0f18;
+  --color-gold: #c9a15b;
+  --color-ink: #2b1a1e;
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* ==========================================================
+   FLOR (SVG)
+   ========================================================== */
+.petal,
+.flower-core,
+.flower-spin {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.flower-bloom .petal {
+  animation: petal-open 1s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) both;
+}
+.flower-bloom .flower-core {
+  animation: core-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s both;
+}
+.flower-bloom .flower-spin {
+  animation: spin-in 1.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s both;
+}
+.flower-idle .flower-spin {
+  animation: idle-spin 80s linear infinite;
+}
+
+@keyframes petal-open {
+  from { transform: scale(0) rotate(-35deg); opacity: 0; }
+  40% { opacity: 1; }
+}
+@keyframes core-pop {
+  from { transform: scale(0); }
+}
+@keyframes spin-in {
+  from { transform: rotate(-140deg); }
+}
+@keyframes idle-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================
+   INTRO
+   Cada elemento tiene como estilo base su estado final; las
+   animaciones arrancan desde "oculto" (fill-mode: both).
+   ========================================================== */
+@property --hole {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.intro-root {
+  --flower-size: min(72vw, 340px);
+  --focus-y: calc(50% - 15vh);
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+.intro-root.open {
+  pointer-events: none;
+}
+
+.intro-veil {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 40%, #4a1b2a 0%, #2a0f18 55%, #170810 100%);
+}
+
+/* Tallo que crece desde abajo */
+.intro-stem {
+  position: absolute;
+  left: calc(50% - 1px);
+  bottom: 0;
+  width: 2px;
+  height: 50%;
+  border-radius: 2px;
+  background: linear-gradient(to top, transparent, #7d9b6a 35%, #e9c987);
+  box-shadow: 0 0 14px rgba(233, 201, 135, 0.6);
+  transform-origin: bottom;
+  opacity: 0;
+  animation: stem-grow 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.1s both;
+}
+@keyframes stem-grow {
+  0% { transform: scaleY(0); opacity: 1; }
+  55% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* Destellos de polen */
+.intro-spark {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  background: #f3d9a0;
+  box-shadow: 0 0 8px 2px rgba(243, 217, 160, 0.7);
+  opacity: 0;
+  animation-name: spark-rise;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+@keyframes spark-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(24px, -85vh); opacity: 0; }
+}
+
+/* Flor: florece en el centro y luego sube */
+.intro-flower {
+  position: absolute;
+  left: calc(50% - var(--flower-size) / 2);
+  top: calc(50% - var(--flower-size) / 2);
+  width: var(--flower-size);
+  height: var(--flower-size);
+  isolation: isolate;
+  transform: translateY(-15vh) scale(0.62);
+  animation: flower-rise 0.9s cubic-bezier(0.65, 0, 0.35, 1) 2.4s both;
+}
+.intro-flower::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239, 184, 188, 0.4), rgba(201, 161, 91, 0.14) 40%, transparent 70%);
+  opacity: 0.7;
+  animation: glow-pulse 2.4s ease-out 0.8s both;
+}
+@keyframes flower-rise {
+  from { transform: none; }
+}
+@keyframes glow-pulse {
+  0% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Nombre letra por letra */
+.intro-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--focus-y) + var(--flower-size) * 0.31 + 20px);
+  padding: 0 16px;
+  text-align: center;
+}
+.intro-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+  color: #fbf6f0;
+  perspective: 600px;
+}
+.intro-letter {
+  display: inline-block;
+  text-shadow: 0 0 30px rgba(239, 184, 188, 0.45);
+  animation:
+    letter-in 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) calc(2.7s + var(--i) * 55ms) both,
+    letter-shine 0.7s ease calc(3.55s + var(--i) * 40ms);
+}
+@keyframes letter-in {
+  from { opacity: 0; transform: translateY(0.5em) rotateX(-80deg) scale(0.8); filter: blur(10px); }
+}
+@keyframes letter-shine {
+  50% { color: #e9c987; text-shadow: 0 0 24px rgba(233, 201, 135, 0.9); }
+}
+.intro-line {
+  display: block;
+  width: 140px;
+  height: 1px;
+  margin: 18px auto 14px;
+  background: linear-gradient(90deg, transparent, #c9a15b, transparent);
+  animation: line-draw 0.8s ease 3.3s both;
+}
+@keyframes line-draw {
+  from { transform: scaleX(0); opacity: 0; }
+}
+.intro-tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(251, 246, 240, 0.7);
+  animation: fade-up 0.8s ease 3.45s both;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* Botón saltar */
+.intro-skip {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 8px 18px;
+  border: 1px solid rgba(251, 246, 240, 0.25);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(251, 246, 240, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.3s;
+  animation: fade-up 0.5s ease 0.8s both;
+}
+.intro-skip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fbf6f0;
+}
+.intro-root.open .intro-skip {
+  opacity: 0;
+}
+
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.intro-ring,
+.intro-flash {
+  position: absolute;
+  left: 50%;
+  top: var(--focus-y);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-ring {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 2px solid #f3d9a0;
+}
+.intro-flash {
+  width: 120vmax;
+  height: 120vmax;
+  margin: -60vmax 0 0 -60vmax;
+  background: radial-gradient(circle, rgba(255, 244, 222, 0.95), rgba(243, 217, 160, 0.35) 25%, transparent 55%);
+}
+
+/* --- Explosión y revelado --- */
+.intro-root.open .intro-veil {
+  mask-image: radial-gradient(circle at 50% var(--focus-y), transparent var(--hole), #000 calc(var(--hole) + 1px));
+  animation:
+    veil-open 1.3s cubic-bezier(0.76, 0, 0.24, 1) 0.1s both,
+    veil-punch 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes veil-open {
+  to { --hole: 150vmax; }
+}
+@keyframes veil-punch {
+  30% { transform: scale(1.04); }
+  100% { transform: scale(1.12); }
+}
+.intro-root.open .intro-flower {
+  animation: flower-out 0.55s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+@keyframes flower-out {
+  from { transform: translateY(-15vh) scale(0.62); }
+  to { transform: translateY(-15vh) scale(1.5); opacity: 0; filter: blur(8px); }
+}
+.intro-root.open .intro-text {
+  animation: text-out 0.5s ease-in both;
+}
+@keyframes text-out {
+  to { opacity: 0; transform: scale(1.15); filter: blur(6px); }
+}
+.intro-root.open .intro-ring {
+  animation: ring-out 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes ring-out {
+  from { transform: scale(0.2); opacity: 1; }
+  to { transform: scale(45); opacity: 0; border-width: 0.5px; }
+}
+.intro-root.open .intro-flash {
+  animation: flash-out 0.7s ease-out both;
+}
+@keyframes flash-out {
+  0% { opacity: 0; transform: scale(0.2); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* Mientras la intro no se abre: sin scroll y contenido oculto */
+body:has(.intro-root:not(.open)) {
+  overflow: hidden;
+}
+body:has(.intro-root:not(.open)) .reveal {
+  opacity: 0;
+  animation: none;
+}
+
+/* Entrada escalonada del contenido de la página */
+.reveal {
+  animation: reveal-up 1s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.35s + var(--r, 0) * 120ms) both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+}
+
+/* Pétalos decorativos que flotan en la portada */
+.float-petal {
+  position: absolute;
+  animation: float 7s ease-in-out infinite;
+}
+@keyframes float {
+  50% { transform: translateY(-18px) rotate(14deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-root *,
+  .intro-root *::before,
+  .reveal,
+  .float-petal,
+  .flower-idle .flower-spin {
+    animation: none !important;
+  }
+  .intro-veil {
+    transition: opacity 0.6s;
+  }
+  .intro-root.open .intro-veil {
+    opacity: 0;
+  }
+}
