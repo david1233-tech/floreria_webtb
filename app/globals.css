@@ -308,11 +308,16 @@ body {
   100% { opacity: 0; transform: scale(1); }
 }
 
+/* Intro ya vista en esta sesión: no se muestra */
+html[data-intro-seen] .intro-root {
+  display: none;
+}
+
 /* Mientras la intro no se abre: sin scroll y contenido oculto */
-body:has(.intro-root:not(.open)) {
+html:not([data-intro-seen]) body:has(.intro-root:not(.open)) {
   overflow: hidden;
 }
-body:has(.intro-root:not(.open)) .reveal {
+html:not([data-intro-seen]) body:has(.intro-root:not(.open)) .reveal {
   opacity: 0;
   animation: none;
 }
@@ -325,20 +330,45 @@ body:has(.intro-root:not(.open)) .reveal {
   from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
 }
 
-/* Pétalos decorativos que flotan en la portada */
-.float-petal {
-  position: absolute;
-  animation: float 7s ease-in-out infinite;
+/* Carrusel: el texto y la ilustración vuelven a entrar en cada diapositiva */
+.hero-in > .reveal {
+  animation: hero-up 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.15s + var(--r, 0) * 110ms) both;
 }
-@keyframes float {
-  50% { transform: translateY(-18px) rotate(14deg); }
+@keyframes hero-up {
+  from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+}
+.reveal.hero-art-in {
+  animation: hero-art 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+}
+@keyframes hero-art {
+  from { opacity: 0; transform: scale(0.85) rotate(-25deg); }
+}
+
+/* Aparición al hacer scroll (navegadores compatibles) */
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .intro-root *,
   .intro-root *::before,
   .reveal,
-  .float-petal,
+  .scroll-reveal,
   .flower-idle .flower-spin {
     animation: none !important;
   }

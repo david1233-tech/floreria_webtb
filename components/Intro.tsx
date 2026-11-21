@@ -1,8 +1,31 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from "react";
 import { Flower } from "./Flower";
 import { SITE } from "@/lib/site";
+
+/** La intro se muestra una vez por sesión del navegador. */
+const SEEN_KEY = "cb-intro";
+
+/** Se ejecuta antes del primer pintado para ocultar la intro si ya se vio. */
+export const INTRO_SEEN_SCRIPT = `try{if(sessionStorage.getItem("${SEEN_KEY}"))document.documentElement.dataset.introSeen=""}catch(e){}`;
+
+const noopSubscribe = () => () => {};
+
+const introSeen = () => {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) !== null;
+  } catch {
+    return false;
+  }
+};
 
 /** Momento (ms) en que la flor explota y se revela la página. */
 const BURST_AT = 4100;
@@ -33,6 +56,10 @@ export function Intro() {
     timers.current.forEach(clearTimeout);
     timers.current = [];
 
+    try {
+      sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {}
+
     const reduce = prefersReducedMotion();
     setPhase("open");
     if (!reduce && canvasRef.current) stopBurst.current = burstPetals(canvasRef.current);
@@ -41,7 +68,12 @@ export function Intro() {
     );
   }, []);
 
+  // Si ya se vio en esta sesión, no se reproduce (el script del <head> ya la ocultó).
+  const seen = useSyncExternalStore(noopSubscribe, introSeen, () => false);
+  const skipped = seen && phase === "playing";
+
   useEffect(() => {
+    if (skipped) return;
     const id = window.setTimeout(open, prefersReducedMotion() ? 1600 : BURST_AT);
     timers.current.push(id);
     return () => {
@@ -49,9 +81,9 @@ export function Intro() {
       timers.current = [];
       stopBurst.current();
     };
-  }, [open]);
+  }, [open, skipped]);
 
-  if (phase === "gone") return null;
+  if (phase === "gone" || skipped) return null;
 
   return (
     <div className={`intro-root ${phase === "open" ? "open" : ""}`}>
